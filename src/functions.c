@@ -28,7 +28,6 @@ ppm_img *read_img(FILE *input_fp) {
     fscanf(input_fp, "%hhu", &max_range);
 
     fgetc(input_fp);
-    printf("%s %hhu", file_type, max_range);
 
     ppm_img *img = init_img(file_type, height, width, max_range);
 
