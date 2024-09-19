@@ -13,13 +13,14 @@ typedef struct qtree {
     struct qtree **children;
 } qtree_node, *qtree;
 
-
+/* Returns the largest integer out of four */
 static inline int max4(int a, int b, int c, int d) {
     int max_ab = (b > a) ? b : a;
     int max_cd = (d > c) ? d : c;
     return (max_ab > max_cd) ? max_ab : max_cd;
 }
 
+/* Returns the smallest integer out of four */
 static inline int min4(int a, int b, int c, int d) {
     int min_ab = (b > a) ? a : b;
     int min_cd = (d > c) ? c : d;

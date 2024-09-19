@@ -17,6 +17,7 @@ static inline void close_files(FILE *input, FILE *output) {
 }
 
 
+/* Printing compression tree data for an image */
 void solve_c1(FILE *input, FILE *output, int factor) {
     ppm_img *img = read_img(input);
 
@@ -28,7 +29,7 @@ void solve_c1(FILE *input, FILE *output, int factor) {
     destroy_img(img);
 }
 
-
+/* Compressing an image with a certain compression factor */
 void solve_c2(FILE *input, FILE *output, int factor) {
     ppm_img *img = read_img(input);
 
@@ -39,7 +40,7 @@ void solve_c2(FILE *input, FILE *output, int factor) {
     destroy_img(img);
 }
 
-
+/* Decompressing an image */
 void solve_d(FILE *input, FILE *output) {
     unsigned int size;
     fread(&size, sizeof(unsigned int), 1, input);
@@ -57,8 +58,7 @@ void solve_d(FILE *input, FILE *output) {
 
 int main(int argc, const char *argv[]) {
 
-    setvbuf(stdout, NULL, _IONBF, 0);
-
+    /* Checking for the */
     if (argc < MIN_ARGS || argc > MAX_ARGS) {
         fprintf(stderr,
             "Wrong argument count!!\nUsage: ./quadtree [-c1 factor | -c2 factor | -d] [input_fp] [output_fp]\n");
