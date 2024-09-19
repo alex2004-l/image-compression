@@ -1,7 +1,7 @@
 #include "functions.h"
 
 
-qtree_node *create_int_node() {
+qtree_node *create_int_node(void) {
     struct int_node_data data;
     data.type = 0;
 
@@ -31,6 +31,7 @@ ppm_img *read_img(FILE *input_fp) {
 
     ppm_img *img = init_img(file_type, height, width, max_range);
 
+    // Reading the pixel values
     for (int i = 0; i < height; ++i)
         for (int j = 0; j < width; ++j)
             fread(&(img->matrix[i][j]), sizeof(unsigned char), 3, input_fp);
@@ -43,6 +44,7 @@ void write_img(FILE *fp, ppm_img *img) {
     fprintf(fp, "%s\n", img->file_type);
     fprintf(fp, "%d %d\n", img->width, img->height);
     fprintf(fp, "%d\n", img->max_range);
+
     for (int i = 0; i < img->height; ++i) 
         for (int j = 0; j < img->width; ++j)
             fwrite(&(img->matrix[i][j]), sizeof(unsigned char), 3, fp);
@@ -84,11 +86,13 @@ void write_compressed_file(FILE *output_fp, qtree tree, unsigned int size) {
         qtree_node *qt_node = (qtree_node *) node->data;
 
         if (qt_node->size == sizeof(struct int_node_data)) {
+            /* Enquueing the node on the next level */
             enqueue(&q, qt_node->children[0], sizeof(struct qtree));
             enqueue(&q, qt_node->children[1], sizeof(struct qtree));
             enqueue(&q, qt_node->children[2], sizeof(struct qtree));
             enqueue(&q, qt_node->children[3], sizeof(struct qtree));
 
+            // Writing the current node's data
             struct int_node_data *data = (struct int_node_data*) qt_node->data;
             fwrite(&(data->type), sizeof(unsigned char), 1, output_fp);
         } else {
